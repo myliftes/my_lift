@@ -126,13 +126,13 @@
 		</dependency>
 		<!-- mybatis框架包 end -->
 		<!-- 数据库驱动 --> 
+			<!-- 
 		<dependency>
 				<groupId>com.oracle</groupId>
 				<artifactId>ojdbc8</artifactId>
 				<version>${oracle.ojdbc8.version}</version>
 				<scope>runtime</scope>
 			</dependency>
-			<!-- 
 				<dependency>
 					<groupId>mysql</groupId>
 					<artifactId>mysql-connector-java</artifactId>
