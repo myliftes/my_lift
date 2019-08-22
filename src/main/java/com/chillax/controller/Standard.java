@@ -28,7 +28,7 @@ public class Standard {
 		JSONObject json = JSON.parseObject(data);
 		String createArr = json.getString("createArr");
 		String modifyArr = json.getString("modifyArr");
-		
+		//测试其他用户更新代码
 		
 		String name = request.getParameter("name");
 		String minWeight = request.getParameter("minWeight");
