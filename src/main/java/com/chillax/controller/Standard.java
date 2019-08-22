@@ -36,7 +36,7 @@ public class Standard {
 		System.out.println("*****************这是前台输入的名字名字"+name+"这里是最小重量"+minWeight+"******************");
 		area.setCitycode(name);
 		 standardService.addstandard(area);
-//测试
+//测试pull
 		return "SUCCESS";
 	}
 }
