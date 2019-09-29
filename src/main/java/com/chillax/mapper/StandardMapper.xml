@@ -82,6 +82,62 @@
 		</trim>   
 	</insert>
 	
+	<!-- PES项目测试
+	<insert id="insert" parameterType="com.sgai.jh.entity.Output">
+		<selectKey resultType="java.lang.Long" keyProperty="sid" order="BEFORE" >
+			SELECT SEQ_JH_OUTPUT.nextval FROM DUAL
+		</selectKey>
+		insert into  MES_JH_OUTPUT(
+			SID,
+			COMPANY_CODE,
+			POST_MONTH,
+			PLANT_CODE,
+			PLANT_DESC,
+			SCOPE_CODE,
+			SCOPE_DESC,
+			STOR_CODE,
+			STOR_DESC,
+			COST_CENTER_CODE,
+			COST_CENTER_DESC,
+			CURR_QUANTITY,
+			NEXT_QUANTITY_IN,
+			NEXT_QUANTITY_OUT,
+			MAT_TYPE,
+			MAT_NR,
+			MAT_DESC,
+			UNIT,
+			REMARKS,
+			CREATED_BY,
+			CREATED_DT,
+			VERSION
+		)
+		values (
+			#{sid,jdbcType=DECIMAL},
+			#{companyCode,jdbcType=VARCHAR},
+			#{postMonth,jdbcType=TIMESTAMP},
+			#{plantCode,jdbcType=VARCHAR},
+			#{plantDesc,jdbcType=VARCHAR},
+			#{scopeCode,jdbcType=VARCHAR},
+			#{scopeDesc,jdbcType=VARCHAR},
+			#{storCode,jdbcType=VARCHAR},
+			#{storDesc,jdbcType=VARCHAR},
+			#{costCenterCode,jdbcType=VARCHAR},
+			#{costCenterDesc,jdbcType=VARCHAR},
+			#{currQuantity,jdbcType=DECIMAL},
+			#{nextQuantityIn,jdbcType=DECIMAL},
+			#{nextQuantityOut,jdbcType=DECIMAL},
+			#{matType,jdbcType=VARCHAR},
+			#{matNr,jdbcType=VARCHAR},
+			#{matDesc,jdbcType=VARCHAR},
+			#{unit,jdbcType=VARCHAR},
+			#{remarks,jdbcType=VARCHAR},
+			#{createdBy,jdbcType=VARCHAR},
+			#{createdDt,jdbcType=TIMESTAMP},
+			#{version,jdbcType=DECIMAL}
+		)
+	</insert>
+	 -->
+	
 	<!-- 批量插入用户 -->
 	<insert id="insertUserByBatch" parameterType="java.util.List" >
     insert into USER

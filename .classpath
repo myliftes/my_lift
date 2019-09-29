@@ -33,5 +33,9 @@
 			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry kind="lib" path="C:/Users/zhang/Desktop/commons-beanutils-1.8.3.jar包 官方免费版 - 副本/第一次验证使用的jab/commons-beanutils-1.7.0.jar"/>
+	<classpathentry kind="lib" path="C:/Users/zhang/Desktop/commons-beanutils-1.8.3.jar包 官方免费版 - 副本/第一次验证使用的jab/commons-collections-3.2.jar"/>
+	<classpathentry kind="lib" path="C:/Users/zhang/Desktop/commons-beanutils-1.8.3.jar包 官方免费版 - 副本/第一次验证使用的jab/commons-lang-2.3.jar"/>
+	<classpathentry kind="lib" path="C:/Users/zhang/Desktop/commons-beanutils-1.8.3.jar包 官方免费版 - 副本/第一次验证使用的jab/ezmorph-1.0.4.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

@@ -1,43 +1,138 @@
 package com.chillax.controller;
 
+import java.beans.BeanInfo;
+import java.beans.IntrospectionException;
+import java.beans.Introspector;
+import java.beans.PropertyDescriptor;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Map.Entry;
+
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.beanutils.BeanUtils;
+//这里不能引入对象
+//import org.apache.commons.beanutils.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.chillax.dto.Area;
 import com.chillax.service.StandardService;
 
+import bease.BaseController;
+import bease.DiyExceetion;
+
+@SuppressWarnings("all")
 @Controller
 @Resource
 @ResponseBody
-public class Standard {
+public class Standard extends BaseController{
 	@Autowired
 	private StandardService standardService;
-
+	Object areaOut;
+	@SuppressWarnings("unchecked")
 	@RequestMapping("/standardAction_add")
-	public String addstandard(Area area, HttpServletRequest request, Model model ,@RequestBody JSONObject obj ) {
-		String data = obj.toJSONString();
-		JSONObject json = JSON.parseObject(data);
-		String createArr = json.getString("createArr");
-		String modifyArr = json.getString("modifyArr");
-		//测试其他用户更新代码
+	public JSONObject addstandard (Area area, HttpServletRequest request, Model model ) throws InstantiationException, IllegalAccessException, InvocationTargetException
+	{
+		//,@RequestBody JSONObject obj )
+		//		String data = obj.toJSONString();
+		//		JSONObject json = JSON.parseObject(data);
+		//		String createArr = json.getString("center");
+		//		String modifyArr = json.getString("minWeight");
+
+		//转换Map格式
+		System.err.println("666");
+		//Area map = getClass(Area,request.getParameterMap());//把请求参数封装到Map<String, String[]>中
+	 
+		Map<String, Object> map = getMap(request.getParameterMap());
+		for(Entry<String, Object> entry:map.entrySet()){
+			System.out.println("key="+entry.getKey()+"\tvalue="+entry.getValue());
+		}
+		System.out.println("test-----begin");
 		
-		String name = request.getParameter("name");
-		String minWeight = request.getParameter("minWeight");
-		request.getParameterValues("minWeight");
-		System.out.println("*****************这是前台输入的名字名字"+name+"这里是最小重量"+minWeight+"******************");
-		area.setCitycode(name);
-		 standardService.addstandard(area);
-//测试pull
-		return "SUCCESS";
+		//测试本类中的方法
+		//Area mapToObject = mapToObject(map, Area.class);
+		
+		//测试父类中的方法
+		try {
+			Integer seconds = (int) (System.currentTimeMillis() / 1000);
+			
+			map.put("id",  (int) System.currentTimeMillis() / 1000);
+			areaOut = mapToBean2(map,area);
+			
+		} catch (IllegalArgumentException | DiyExceetion e) {
+			// TODO Auto-generated catch block
+			System.out.println("test-----fail");
+			e.printStackTrace();
+		}
+		
+		 standardService.addstandard(areaOut);
+		 
+		 JSONObject jsonObject = new JSONObject();
+		 jsonObject.put("success", "success");
+
+		return jsonObject;
+	} 
+	
+	private  Class<?> getClassforme(Class<?> cls,Map<String, Object>returnMap) {
+		Iterator iterMap = returnMap.entrySet().iterator(); 
+		  while (iterMap.hasNext()) {
+		   Map.Entry entry = (Map.Entry) iterMap.next();
+		   PropertyDescriptor pd = org.springframework.beans.BeanUtils.getPropertyDescriptor(cls, entry.getKey().toString());
+		   if (pd == null || pd.equals("")) {
+		    throw new RuntimeException("输入的"+pd+"要修改的"+entry.getKey().toString()+"属性与实体属性不匹配");
+		   }
+		   try {
+			BeanUtils.setProperty(cls, (String) entry.getKey(),entry.getValue());
+		} catch (IllegalAccessException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (InvocationTargetException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		  }
+		//返回赋值后的实体类
+		return cls;
+	}	
+	
+	//map装bean
+	public static <T> T mapToObject(Map<String,Object> map,Class<T> clz) throws IllegalAccessException, IllegalArgumentException, InvocationTargetException 
+	{
+		//创建JavaBean对象
+		T obj = null;
+		try {
+			obj = clz.newInstance();
+		} catch (InstantiationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IllegalAccessException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		//获取指定类的BeanInfo对象
+		BeanInfo beanInfo = null;
+		try {
+			beanInfo = Introspector.getBeanInfo(clz, Object.class);
+		} catch (IntrospectionException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		//获取所有的属性描述器
+		PropertyDescriptor[] pds = beanInfo.getPropertyDescriptors();
+		for(PropertyDescriptor pd:pds){
+			Object value = map.get(pd.getName());
+			Method setter = pd.getWriteMethod();
+			setter.invoke(obj, value);
+		}
+		return  obj;
 	}
 }
 

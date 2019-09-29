@@ -86,43 +86,33 @@
 				field : 'id',
 				checkbox : true
 			},{
-				field : 'name',
-				title : '标准名称',
+				field : 'province',
+				title : '省',
 				width : 120, 
 				align : 'center'
 			}, {
-				field : 'minWeight',
-				title : '最小重量',
+				field : 'city',
+				title : '市',
 				width : 120, 
 				align : 'center'
 			}, {
-				field : 'maxWeight',
-				title : '最大重量',
+				field : 'district',
+				title : '区域',
 				width : 120, 
 				align : 'center'
 			}, {
-				field : 'minLength',
-				title : '最小长度',
+				field : 'postcode',
+				title : '邮政编码',
 				width : 120, 
 				align : 'center'
 			}, {
-				field : 'maxLength',
-				title : '最大长度',
+				field : 'citycode',
+				title : '城市编码',
 				width : 120,
 				align : 'center'
 			}, {
-				field : 'operator',
-				title : '操作人',
-				width : 120,
-				align : 'center'
-			}, {
-				field : 'operatingTime',
-				title : '操作时间',
-				width : 120,
-				align : 'center'
-			}, {
-				field : 'company',
-				title : '操作单位',
+				field : 'shortcode',
+				title : '简码',
 				width : 120,
 				align : 'center'
 			} ] ];
@@ -149,9 +139,9 @@
 //             			表单的提交
 						var formData = $("#standardForm").serializeJSON(); 
 						//alert(formData);
- 						var str = JSON.stringify(formData); //JSON.stringify是纯js的方法 把对象转成字符串
+ 						//var str = JSON.stringify(formData); //JSON.stringify是纯js的方法 把对象转成字符串
  						//alert(str);
-            			$.post("../../standardAction_add.action",str,function(data){
+            			$.post("../../standardAction_add.action",formData,function(data){
             				data= {"success":true,"message":"保存成功"}
             				if(data.success){
 //             					1、关闭窗口
@@ -162,8 +152,12 @@
             				}
 //             				3、alert提示
             				$.messager.alert("提示",data.message);
-            			},"application/json")
+            			},"json")
             		}
+            		else{
+            			//这里暂时不能指明不合法内容  后续完善
+            			alert("提示","所有内容必须输入");
+           			}
             	})
             })
             </script>
@@ -171,47 +165,49 @@
 				<form  id="standardForm" >
 					<table class="table-edit" width="80%" align="center">
 						<tr class="title">
-							<td colspan="2">收派标准信息
+							<td colspan="2">城市信息
 								<!--提供隐藏域 装载id -->
 								<input type="hidden" name="id" />
 							</td>
 						</tr>
 						<tr>
-							<td>收派标准名称</td>
+							<td>省</td>
 							<td>
-								<input type="text" name="name" 
+								<input type="text" name="province" 
 									class="easyui-validatebox" data-options="required:true" />
 							</td>
 						</tr>
 						<tr>
-							<td>最小重量</td>
+							<td>市</td>
 							<td>
-								<input type="text" name="minWeight" 
-										class="easyui-numberbox" required="true" />
+							<!-- 
+								<input type="text" name="city" class="easyui-numberbox" required="true" />
+							 -->
+								<input type="text" name="city" class="easyui-validatebox" required="true" />
 							</td>
 						</tr>
 						<tr>
-							<td>最大重量</td>
+							<td>区域</td>
 							<td>
-								<input type="text" name="maxWeight" class="easyui-numberbox" required="true" />
+								<input type="text" name="district" class="easyui-validatebox" required="true" />
 							</td>
 						</tr>
 						<tr>
-							<td>最小长度</td>
+							<td>邮编</td>
 							<td>
-								<input type="text" name="minLength" class="easyui-numberbox" required="true" />
+								<input type="text" name="postcode" class="easyui-validatebox" required="true" />
 							</td>
 						</tr>
 						<tr>
-							<td>最大长度cha</td>
+							<td>城市编码</td>
 							<td>
-								<input type="text" name="maxLength" class="easyui-numberbox" required="true" />
+								<input type="text" name="citycode" class="easyui-validatebox" required="true" />
 							</td>
 						</tr>
 						<tr>
-							<td>盛世美颜</td>
+							<td>简码</td>
 							<td>
-								<input type="text" name="maxYanzhi" class="easyui-validatebox" required="false" />
+								<input type="text" name="shortcode" class="easyui-validatebox" required="false" />
 							</td>
 						</tr>
 					</table>

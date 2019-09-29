@@ -7,6 +7,6 @@ import com.chillax.dto.Area;
 @Service
 public interface StandardService {
 
-	public void addstandard(Area area);
+	public void addstandard(Object areaOut);
  
 }

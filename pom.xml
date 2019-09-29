@@ -24,6 +24,16 @@
         
 	<!-- 用到的jar包 -->
 	<dependencies>
+	
+<!-- 
+		据说是自动将map封装成bean的jab包  但是。。
+        <dependency>
+            <groupId>commons-beanutils</groupId>
+            <artifactId>commons-beanutils</artifactId>
+            <version>1.8.3</version>
+        </dependency>
+ -->
+	
 		<!-- 单元测试 -->
 		<dependency>
 			<groupId>junit</groupId>

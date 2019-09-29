@@ -19,7 +19,7 @@
 		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
 		<property name="dataSource" ref="dataSource" />
 	</bean>
-	
+			
 	 <!--  配置参与事务的类 -->
 	 <aop:config>
 		 <aop:pointcut id="allServiceMethod" expression="execution(* com.chillax.service.*.*(..))"/>

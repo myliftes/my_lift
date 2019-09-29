@@ -41,7 +41,8 @@
 				text : '增加',
 				iconCls : 'icon-add',
 				handler : function(){
-					alert('增加');
+					$("#standardForm").form('clear');
+					$("#standardWindow").window("open");
 				}
 			}, {
 				id : 'button-edit',
@@ -115,5 +116,96 @@
 		<div region="center" border="false">
 			<table id="grid"></table>
 		</div>
+		<div class="easyui-window" title="对收派标准进行添加或者修改" id="standardWindow" collapsible="false" minimizable="false" maximizable="false" modal="true" closed="true" style="width:600px;top:50px;left:200px">
+			<div region="north" style="height:31px;overflow:hidden;" split="false" border="false">
+				<div class="datagrid-toolbar">
+					<a id="save" icon="icon-save" href="#" class="easyui-linkbutton" plain="true">保存</a>
+				</div>
+			</div>
+            <script type="text/javascript">
+            $(function(){
+            	$("#save").click(function(){
+//             		表单校验
+					
+            		if($("#standardForm").form('validate')){
+//             			表单的提交
+						var formData = $("#standardForm").serializeJSON(); 
+						//alert(formData);
+ 						//var str = JSON.stringify(formData); //JSON.stringify是纯js的方法 把对象转成字符串
+ 						//alert(str);
+            			$.post("../../standardAction_add.action",formData,function(data){
+            				data= {"success":true,"message":"保存成功"}
+            				if(data.success){
+//             					1、关闭窗口
+									$("#standardWindow").window("close");
+//             					2、刷新列表数据
+// 									使用datagrid的重新加载数据的方法
+									$("#grid").datagrid("reload");
+            				}
+//             				3、alert提示
+            				$.messager.alert("提示",data.message);
+            			},"json")
+            		}
+            		else{
+            			//这里暂时不能指明不合法内容  后续完善
+            			alert("提示","所有内容必须输入");
+           			}
+            	})
+            })
+            </script>
+			<div region="center" style="overflow:auto;padding:5px;" border="false">
+				<form  id="standardForm" >
+					<table class="table-edit" width="80%" align="center">
+						<tr class="title">
+							<td colspan="2">城市信息
+								<!--提供隐藏域 装载id -->
+								<input type="hidden" name="id" />
+							</td>
+						</tr>
+						<tr>
+							<td>省</td>
+							<td>
+								<input type="text" name="province" 
+									class="easyui-validatebox" data-options="required:true" />
+							</td>
+						</tr>
+						<tr>
+							<td>市</td>
+							<td>
+							<!-- 
+								<input type="text" name="city" class="easyui-numberbox" required="true" />
+							 -->
+								<input type="text" name="city" class="easyui-validatebox" required="true" />
+							</td>
+						</tr>
+						<tr>
+							<td>区域</td>
+							<td>
+								<input type="text" name="district" class="easyui-validatebox" required="true" />
+							</td>
+						</tr>
+						<tr>
+							<td>邮编</td>
+							<td>
+								<input type="text" name="postcode" class="easyui-validatebox" required="true" />
+							</td>
+						</tr>
+						<tr>
+							<td>城市编码</td>
+							<td>
+								<input type="text" name="citycode" class="easyui-validatebox" required="true" />
+							</td>
+						</tr>
+						<tr>
+							<td>简码</td>
+							<td>
+								<input type="text" name="shortcode" class="easyui-validatebox" required="false" />
+							</td>
+						</tr>
+					</table>
+				</form>
+			</div>
+		</div>
+		
 	</body>
 </html>
