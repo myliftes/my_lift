@@ -41,43 +41,33 @@ public class Standard extends BaseController{
 	@RequestMapping("/standardAction_add")
 	public JSONObject addstandard (Area area, HttpServletRequest request, Model model ) throws InstantiationException, IllegalAccessException, InvocationTargetException
 	{
-		//,@RequestBody JSONObject obj )
-		//		String data = obj.toJSONString();
-		//		JSONObject json = JSON.parseObject(data);
-		//		String createArr = json.getString("center");
-		//		String modifyArr = json.getString("minWeight");
-
 		//转换Map格式
-		System.err.println("666");
-		//Area map = getClass(Area,request.getParameterMap());//把请求参数封装到Map<String, String[]>中
 	 
 		Map<String, Object> map = getMap(request.getParameterMap());
 		for(Entry<String, Object> entry:map.entrySet()){
 			System.out.println("key="+entry.getKey()+"\tvalue="+entry.getValue());
 		}
-		System.out.println("test-----begin");
 		
-		//测试本类中的方法
-		//Area mapToObject = mapToObject(map, Area.class);
-		
-		//测试父类中的方法
 		try {
 			Integer seconds = (int) (System.currentTimeMillis() / 1000);
 			
-			map.put("id",  (int) System.currentTimeMillis() / 1000);
-			areaOut = mapToBean2(map,area);
+			//map.put("id",  (int) System.currentTimeMillis() / 1000);
+			areaOut = mapToBean(map,area);
 			
 		} catch (IllegalArgumentException | DiyExceetion e) {
-			// TODO Auto-generated catch block
 			System.out.println("test-----fail");
 			e.printStackTrace();
 		}
-		
-		 standardService.addstandard(areaOut);
-		 
-		 JSONObject jsonObject = new JSONObject();
-		 jsonObject.put("success", "success");
 
+		JSONObject jsonObject = new JSONObject();
+		
+		try {
+			standardService.addstandard(areaOut);
+			jsonObject.put("success", "success");
+			
+		} catch (Exception e) {
+			jsonObject.put("fail", "fail");
+		}
 		return jsonObject;
 	} 
 	
