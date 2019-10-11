@@ -2,6 +2,7 @@ package com.chillax.controller;
 
 public class demo {
 public static void main(String[] args) {
+
 	//四舍五入 保留小数
 	double x = 4.185638438;
 	double y =  ((int)(x*10 + 0.5))/10.0; // y = 4.18
