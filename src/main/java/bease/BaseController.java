@@ -117,7 +117,7 @@ public abstract class BaseController<T>
 		            } catch (NoSuchMethodException e1) {
 		                String newMethodName = "set" + fieldName.substring(0, 1).toLowerCase()
 		                        + fieldName.substring(1).toLowerCase();
-		                try {
+		                try { 
 		                    method = clazz.getMethod(newMethodName, new Class[] { mapValue.getClass() });
 		                } catch (SecurityException e) {
 		                    e.printStackTrace();
