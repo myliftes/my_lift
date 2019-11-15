@@ -39,8 +39,15 @@
 			
 			//工具栏
 			var toolbar = [ {
+				id : 'button-query',
+				text : '查詢',
+				iconCls : 'icon-query',
+				handler : function(){
+					alert('無數據');
+				}
+			},{
 				id : 'button-add',
-				text : '增加',
+				text : '錄入',
 				iconCls : 'icon-add',
 				handler : function(){
 					$("#standardForm").form('clear');
@@ -62,22 +69,22 @@
 // 						$("#standardForm").form('load',{"name":"AAAAAA","minWeight":1,"maxWeight":10});
 						$("#standardForm").form('load',rowDatas[0]);
 					}else{
-						$.messager.alert("提示","请选择一条数据");
+						$.messager.alert("注意","請選擇一條數據");
 					}
 				}
 			},{
 				id : 'button-delete',
-				text : '作废',
+				text : '作廢',
 				iconCls : 'icon-cancel',
 				handler : function(){
-					alert('作废');
+					alert('作廢');
 				}
 			},{
 				id : 'button-restore',
-				text : '还原',
+				text : '還原',
 				iconCls : 'icon-save',
 				handler : function(){
-					alert('还原');
+					alert('還原');
 				}
 			}];
 			
@@ -86,33 +93,58 @@
 				field : 'id',
 				checkbox : true
 			},{
-				field : 'province',
-				title : '省',
+				field : 'name',
+				title : '標準名稱',
 				width : 120, 
 				align : 'center'
 			}, {
-				field : 'city',
-				title : '市',
+				field : 'minWeight',
+				title : '最小重量',
 				width : 120, 
 				align : 'center'
 			}, {
-				field : 'district',
-				title : '区域',
+				field : 'maxWeight',
+				title : '最大重量',
 				width : 120, 
 				align : 'center'
 			}, {
-				field : 'postcode',
-				title : '邮政编码',
+				field : 'minLength',
+				title : '最小長度',
 				width : 120, 
 				align : 'center'
 			}, {
-				field : 'citycode',
-				title : '城市编码',
+				field : 'maxLength',
+				title : '最大長度',
 				width : 120,
 				align : 'center'
 			}, {
-				field : 'shortcode',
-				title : '简码',
+				field : 'operatingTime',
+				title : '操作時間',
+				width : 120,
+				align : 'center'
+			} , {
+				field : 'operatingCompany',
+				title : '操作單位',
+				width : 120,
+				align : 'center'
+			}, {
+				field : 'creator',
+				title : '記錄人',
+				width : 120,
+				align : 'center'
+			}, {
+				field : 'create_time',
+				title : '記錄時間',
+				width : 120,
+				align : 'center'
+			}, {
+				field : 'revisor',
+				title : '修改人',
+				width : 120,
+				align : 'center'
+			}, {
+				field : 'revice_time',
+				title : '修改時間',
 				width : 120,
 				align : 'center'
 			} ] ];
@@ -124,10 +156,10 @@
 			<table id="grid"></table>
 		</div>
 		
-		<div class="easyui-window" title="对收派标准进行添加或者修改" id="standardWindow" collapsible="false" minimizable="false" maximizable="false" modal="true" closed="true" style="width:600px;top:50px;left:200px">
+		<div class="easyui-window" title="對收派標準修改或者添加" id="standardWindow" collapsible="false" minimizable="false" maximizable="false" modal="true" closed="true" style="width:600px;top:50px;left:200px">
 			<div region="north" style="height:31px;overflow:hidden;" split="false" border="false">
 				<div class="datagrid-toolbar">
-					<a id="save" icon="icon-save" href="#" class="easyui-linkbutton" plain="true">保存</a>
+					<a id="save" icon="icon-save" href="#" class="easyui-linkbutton" plain="true">錄入軟體</a>
 				</div>
 			</div>
             <script type="text/javascript">
@@ -142,13 +174,15 @@
  						//var str = JSON.stringify(formData); //JSON.stringify是纯js的方法 把对象转成字符串
  						//alert(str);
             			$.post("../../standardAction_add.action",formData,function(data){
-            				data= {"success":true,"message":"保存成功"}
             				if(data.success){
+            					data= {"success":true,"message":"保存成功"}
 //             					1、关闭窗口
 									$("#standardWindow").window("close");
 //             					2、刷新列表数据
 // 									使用datagrid的重新加载数据的方法
 									$("#grid").datagrid("reload");
+            				}else {
+                				data= {"success":true,"message":"保存失败在接在励"}
             				}
 //             				3、alert提示
             				$.messager.alert("提示",data.message);
@@ -165,49 +199,53 @@
 				<form  id="standardForm" >
 					<table class="table-edit" width="80%" align="center">
 						<tr class="title">
-							<td colspan="2">城市信息
+							<td colspan="2">主鍵
 								<!--提供隐藏域 装载id -->
 								<input type="hidden" name="id" />
 							</td>
 						</tr>
 						<tr>
-							<td>省</td>
+							<td>標準名稱</td>
 							<td>
-								<input type="text" name="province" 
-									class="easyui-validatebox" data-options="required:true" />
+								<input type="text" name="name"  class="easyui-validatebox" data-options="required:true" />
 							</td>
 						</tr>
 						<tr>
-							<td>市</td>
+							<td>最小重量</td>
 							<td>
-							<!-- 
-								<input type="text" name="city" class="easyui-numberbox" required="true" />
-							 -->
-								<input type="text" name="city" class="easyui-validatebox" required="true" />
+								<input type="number" name="minWeight" class="easyui-numberbox" required="true" />
 							</td>
 						</tr>
 						<tr>
-							<td>区域</td>
+							<td>最大重量</td>
 							<td>
-								<input type="text" name="district" class="easyui-validatebox" required="true" />
+								<input type="number" name="maxWeight" class="easyui-numberbox" required="true" />
 							</td>
 						</tr>
 						<tr>
-							<td>邮编</td>
+							<td>最小長度</td>
 							<td>
-								<input type="text" name="postcode" class="easyui-validatebox" required="true" />
+								<input type="number" name="minLength" class="easyui-numberbox" required="true" />
 							</td>
 						</tr>
 						<tr>
-							<td>城市编码</td>
+							<td>最大長度</td>
 							<td>
-								<input type="text" name="citycode" class="easyui-validatebox" required="true" />
+								<input type="number" name="maxLength" class="easyui-numberbox" required="true" />
 							</td>
 						</tr>
+						<!-- 
 						<tr>
-							<td>简码</td>
+							<td>操作時間</td>
 							<td>
-								<input type="text" name="shortcode" class="easyui-validatebox" required="false" />
+								<input type="date" name="operatingTime" class="easyui-datebox" required="false" />
+							</td>
+						</tr>
+						 -->
+						<tr>
+							<td>操作員</td>
+							<td>
+								<input type="text" name="operator" class="easyui-combobox" required="false" />
 							</td>
 						</tr>
 					</table>

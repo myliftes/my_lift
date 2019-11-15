@@ -1,142 +1,67 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.chillax.dao.StandardDao" >  
-    <resultMap id="BaseResultMap" type="com.chillax.dto.Area"> 
-	
+    <resultMap id="BaseResultMap" type="com.chillax.dto.Standard"> 
 		<result column="C_ID" property="id" jdbcType="INTEGER" />
-		<result column="C_PROVINCE" property="province" jdbcType="VARCHAR" />
-		<result column="C_CITY" property="city" jdbcType="VARCHAR" /> 
-		<result column="C_DISTRICT" property="district" jdbcType="VARCHAR" /> 
-		<result column="C_POSTCODE" property="postcode" jdbcType="VARCHAR" /> 
-		<result column="C_CITYCODE" property="citycode" jdbcType="VARCHAR" /> 
-		<result column="C_SHORTCODE" property="shortcode" jdbcType="VARCHAR" /> 
+		<result column="C_NAME" property="name" jdbcType="VARCHAR" />
+		<result column="C_MINWEIGHT" property="minWeight" jdbcType="DOUBLE" /> 
+		<result column="C_MAXWEIGHT" property="maxWeight" jdbcType="DOUBLE" /> 
+		<result column="C_MINLENGTH" property="minLength" jdbcType="DOUBLE" /> 
+		<result column="C_MAXLENGTH" property="maxLength" jdbcType="DOUBLE" /> 
+		<result column="C_OPERATINGTIME" property="operatingTime" jdbcType="TIMESTAMP" /> 
+		<result column="C_OPERATOR" property="operator" jdbcType="VARCHAR" /> 
+		<result column="C_OPERATINGCOMPANY" property="operatingCompany" jdbcType="VARCHAR" /> 
+		<result column="C_CREATOR" property="creator" jdbcType="VARCHAR" /> 
+		<result column="C_CREATE_TIME" property="create_time" jdbcType="VARCHAR" /> 
+		<result column="C_REVISOR" property="revisor" jdbcType="VARCHAR" /> 
+		<result column="C_REVICE_TIME" property="revice_time" jdbcType="VARCHAR" /> 
+		<result column="C_VERSION" property="verison" jdbcType="VARCHAR" /> 
 	</resultMap>
 
 	<sql id="Base_Column_List">
-		C_ID, C_PROVINCE, C_CITY, C_DISTRICT, C_POSTCODE ,C_CITYCODE, C_SHORTCODE
+		C_ID, C_NAME, C_MINWEIGHT, C_MAXWEIGHT, C_MINLENGTH ,C_MAXLENGTH, C_OPERATINGTIME,C_OPERATOR,
+		C_OPERATINGCOMPANY
 	</sql>
 
 	<!-- 查询用户-->
-	<select id="queryByPrimaryKey" resultMap="BaseResultMap"
+	<select id="queryByPrimaryKey" resultMap="BaseResultMap"		parameterType="java.util.Map">
+	<!-- 
 		parameterType="java.lang.Integer">
+	 -->
 		SELECT
 		<include refid="Base_Column_List" />
-		FROM T_AREA
-		WHERE C_ID = #{id,jdbcType=INTEGER}
+		FROM T_STANDARD
+		
+		<!--  WHERE C_ID = #{id,jdbcType=INTEGER} -->
+		
+		<trim prefix="WHERE" prefixOverrides="AND|OR">
+			
+			<if test="id != null" >
+				AND C_ID = #{id,jdbcType=INTEGER}
+			</if>
+			 
+		</trim>
 	</select>
 	
 	<!-- 查询用户-->
-	<select id="getAllUser" resultMap="BaseResultMap">
+	<select id="findByPage" parameterType="com.chillax.dto.Standard" resultMap="BaseResultMap">
 		select
 		<include refid="Base_Column_List" />
-		FROM T_AREA
+		FROM T_STANDARD WHERE C_ID = #{Id}
 	</select>  
-	<!-- 插入用户 -->
-	<insert id="addStandard" parameterType="com.chillax.dto.Area">
-		INSERT INTO T_AREA  
-		<trim prefix="(" suffix=")" suffixOverrides="," >  
-		  <if test="id != null" >  
-		    C_ID,  
-		  </if>  
-		  <if test="province != null" >  
-		    C_PROVINCE,  
-		  </if>  
-		  <if test="city != null" >  
-		    C_CITY,  
-		  </if>  
-		  <if test="district != null" >  
-		    C_DISTRICT,  
-		  </if>  
-		  <if test="postcode != null" >  
-		    C_POSTCODE,  
-		  </if>  
-		  <if test="citycode != null" >  
-		    C_CITYCODE,  
-		  </if>  
-		  <if test="shortcode != null" >  
-		    C_SHORTCODE,  
-		  </if>  
-		</trim>   
-		<trim prefix="values (" suffix=")" suffixOverrides="," >  
-		  <if test="id != null" >  
-		    #{id,jdbcType=INTEGER},  
-		  </if>  
-		  <if test="province != null" >  
-		    #{province,jdbcType=VARCHAR},  
-		  </if>  
-		  <if test="city != null" >  
-		    #{city,jdbcType=VARCHAR},  
-		  </if>  
-		  <if test="district != null" >  
-		    #{district,jdbcType=VARCHAR},  
-		  </if>  
-		  <if test="postcode != null" >  
-		    #{postcode,jdbcType=VARCHAR},  
-		  </if>  
-		  <if test="citycode != null" >  
-		    #{citycode,jdbcType=VARCHAR},  
-		  </if>  
-		  <if test="shortcode != null" >  
-		    #{shortcode,jdbcType=VARCHAR},  
-		  </if>  
-		</trim>   
-	</insert>
-	
-	<!-- PES项目测试
-	<insert id="insert" parameterType="com.sgai.jh.entity.Output">
-		<selectKey resultType="java.lang.Long" keyProperty="sid" order="BEFORE" >
-			SELECT SEQ_JH_OUTPUT.nextval FROM DUAL
-		</selectKey>
-		insert into  MES_JH_OUTPUT(
-			SID,
-			COMPANY_CODE,
-			POST_MONTH,
-			PLANT_CODE,
-			PLANT_DESC,
-			SCOPE_CODE,
-			SCOPE_DESC,
-			STOR_CODE,
-			STOR_DESC,
-			COST_CENTER_CODE,
-			COST_CENTER_DESC,
-			CURR_QUANTITY,
-			NEXT_QUANTITY_IN,
-			NEXT_QUANTITY_OUT,
-			MAT_TYPE,
-			MAT_NR,
-			MAT_DESC,
-			UNIT,
-			REMARKS,
-			CREATED_BY,
-			CREATED_DT,
-			VERSION
-		)
+
+	<!-- 添加数据 -->
+	<insert id="addStandard" parameterType="om.chillax.dto.Standard" >
+	INSERT INTO T_STANDARD   (
+		C_ID,C_NAME,C_MINWEIGHT,C_MAXWEIGHT,C_MINLENGTH,C_MAXLENGTH,C_OPERATINGTIME,C_OPERATOR,		
+		C_OPERATINGCOMPANY,C_CREATOR,C_CREATE_TIME,C_REVISOR,C_REVICE_TIME,C_VERSION)
 		values (
-			#{sid,jdbcType=DECIMAL},
-			#{companyCode,jdbcType=VARCHAR},
-			#{postMonth,jdbcType=TIMESTAMP},
-			#{plantCode,jdbcType=VARCHAR},
-			#{plantDesc,jdbcType=VARCHAR},
-			#{scopeCode,jdbcType=VARCHAR},
-			#{scopeDesc,jdbcType=VARCHAR},
-			#{storCode,jdbcType=VARCHAR},
-			#{storDesc,jdbcType=VARCHAR},
-			#{costCenterCode,jdbcType=VARCHAR},
-			#{costCenterDesc,jdbcType=VARCHAR},
-			#{currQuantity,jdbcType=DECIMAL},
-			#{nextQuantityIn,jdbcType=DECIMAL},
-			#{nextQuantityOut,jdbcType=DECIMAL},
-			#{matType,jdbcType=VARCHAR},
-			#{matNr,jdbcType=VARCHAR},
-			#{matDesc,jdbcType=VARCHAR},
-			#{unit,jdbcType=VARCHAR},
-			#{remarks,jdbcType=VARCHAR},
-			#{createdBy,jdbcType=VARCHAR},
-			#{createdDt,jdbcType=TIMESTAMP},
-			#{version,jdbcType=DECIMAL}
-		)
-	</insert>
-	 -->
+		#{id,jdbcType=INTEGER},#{name,jdbcType=VARCHAR},#{minWeight,jdbcType=DOUBLE},#{maxWeight,jdbcType=DOUBLE},
+		#{minLength,jdbcType=DOUBLE},#{maxLength,jdbcType=DOUBLE},#{operatingTime,jdbcType=TIMESTAMP},
+		#{operator,jdbcType=VARCHAR},#{operatingCompany,jdbcType=VARCHAR},#{creator,jdbcType=VARCHAR},
+		#{create_time,jdbcType=TIMESTAMP},#{revisor,jdbcType=VARCHAR},#{revice_time,jdbcType=TIMESTAMP},
+		#{verison,jdbcType=INTEGER})
+  	</insert>
 	
 	<!-- 批量插入用户 -->
 	<insert id="insertUserByBatch" parameterType="java.util.List" >
@@ -144,15 +69,15 @@
        (C_ID, C_PROVINCE, C_CITY, C_DISTRICT, C_POSTCODE ,C_CITYCODE, C_SHORTCODE)
     select A.* from
          (
-         <foreach collection="list" item="area" index="index" separator="union">
+         <foreach collection="list" item="standard" index="index" separator="union">
              select 
-             #{area.id,jdbcType=INTEGER},
-             #{area.name,jdbcType=VARCHAR},
-             #{area.password,jdbcType=VARCHAR},
-             #{area.age,jdbcType=INTEGER}
+             #{standard.id,jdbcType=INTEGER},
+             #{standard.name,jdbcType=VARCHAR},
+             #{standard.password,jdbcType=VARCHAR},
+             #{standard.age,jdbcType=INTEGER}
               from dual
          </foreach>
-         ) A
+         ) 
   	</insert>
 
 	<!-- 删除用户 -->
