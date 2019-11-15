@@ -23,25 +23,7 @@
 		C_OPERATINGCOMPANY
 	</sql>
 
-	<!-- 查询用户-->
-	<select id="queryByPrimaryKey" resultMap="BaseResultMap"		parameterType="java.util.Map">
-	<!-- 
-		parameterType="java.lang.Integer">
-	 -->
-		SELECT
-		<include refid="Base_Column_List" />
-		FROM T_STANDARD
-		
-		<!--  WHERE C_ID = #{id,jdbcType=INTEGER} -->
-		
-		<trim prefix="WHERE" prefixOverrides="AND|OR">
-			
-			<if test="id != null" >
-				AND C_ID = #{id,jdbcType=INTEGER}
-			</if>
-			 
-		</trim>
-	</select>
+	
 	
 	<!-- 查询用户-->
 	<select id="findByPage" parameterType="com.chillax.dto.Standard" resultMap="BaseResultMap">
@@ -51,7 +33,7 @@
 	</select>  
 
 	<!-- 添加数据 -->
-	<insert id="addStandard" parameterType="om.chillax.dto.Standard" >
+	<insert id="addStandard" parameterType="com.chillax.dto.Standard" >
 	INSERT INTO T_STANDARD   (
 		C_ID,C_NAME,C_MINWEIGHT,C_MAXWEIGHT,C_MINLENGTH,C_MAXLENGTH,C_OPERATINGTIME,C_OPERATOR,		
 		C_OPERATINGCOMPANY,C_CREATOR,C_CREATE_TIME,C_REVISOR,C_REVICE_TIME,C_VERSION)
@@ -63,22 +45,7 @@
 		#{verison,jdbcType=INTEGER})
   	</insert>
 	
-	<!-- 批量插入用户 -->
-	<insert id="insertUserByBatch" parameterType="java.util.List" >
-    insert into USER
-       (C_ID, C_PROVINCE, C_CITY, C_DISTRICT, C_POSTCODE ,C_CITYCODE, C_SHORTCODE)
-    select A.* from
-         (
-         <foreach collection="list" item="standard" index="index" separator="union">
-             select 
-             #{standard.id,jdbcType=INTEGER},
-             #{standard.name,jdbcType=VARCHAR},
-             #{standard.password,jdbcType=VARCHAR},
-             #{standard.age,jdbcType=INTEGER}
-              from dual
-         </foreach>
-         ) 
-  	</insert>
+	
 
 	<!-- 删除用户 -->
 	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
@@ -86,17 +53,9 @@
 		where id = #{id,jdbcType=INTEGER}  
   	</delete>
   	
-  	<!-- 批量删除用户 -->
-	<delete id="deleteUserByBatch" parameterType="java.util.Map" >
-	 delete from user
-	 where id IN 
-	     <foreach item="ids" collection="iList" open="(" separator="," close=")">
-	         #{ids,jdbcType=DECIMAL}
-	     </foreach>
-	</delete>
 
 	<!-- 更新用户 -->
-	<update id="updateByPrimaryKey" parameterType="com.chillax.dto.User" >  
+	<update id="updateByPrimaryKey" parameterType="com.chillax.dto.Standard" >  
 	    update user  
 		<set >  
 		  <if test="name != null" >  

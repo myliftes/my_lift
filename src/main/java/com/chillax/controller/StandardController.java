@@ -40,6 +40,10 @@ public class StandardController extends BaseController {
 			throws InstantiationException, IllegalAccessException, InvocationTargetException {
 		JSONObject jsonObject = new JSONObject();
 		try {
+			if (null==standard.getId() || ""==standard.getId().toString().trim()) {
+				standard.setId(getTime());
+			}
+			System.out.println("传入的内容是"+standard.toString());
 			standardService.addstandard(standard);
 			jsonObject.put("success", "success");
 		} catch (Exception e) {
