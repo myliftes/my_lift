@@ -22,15 +22,27 @@
 		C_ID, C_NAME, C_MINWEIGHT, C_MAXWEIGHT, C_MINLENGTH ,C_MAXLENGTH, C_OPERATINGTIME,C_OPERATOR,
 		C_OPERATINGCOMPANY
 	</sql>
-
-	
 	
 	<!-- 查询用户-->
-	<select id="findByPage" parameterType="com.chillax.dto.Standard" resultMap="BaseResultMap">
+	<select id="findByPage"  resultType="java.util.Map"><!-- parameterType="com.chillax.dto.Standard" -->
 		select
 		<include refid="Base_Column_List" />
-		FROM T_STANDARD WHERE C_ID = #{Id}
-	</select>  
+		FROM T_STANDARD  
+		<trim prefix="WHERE" prefixOverrides="AND |OR ">
+			<if test="id != null" >
+				AND C_ID = #{id,jdbcType=INTEGER}
+			</if>
+		</trim>
+			<!-- 
+			ORDER BY 
+			<if test="order != null">  
+				${order}  
+			</if>
+			<if test="order == null">  
+				SID DESC
+			</if>
+			 -->
+	</select> 
 
 	<!-- 添加数据 -->
 	<insert id="addStandard" parameterType="com.chillax.dto.Standard" >

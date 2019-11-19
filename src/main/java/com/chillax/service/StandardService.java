@@ -1,12 +1,20 @@
 package com.chillax.service;
 
-import org.springframework.stereotype.Service;
+import java.util.List;
+import java.util.Map;
 
-import com.chillax.dto.Area;
+import javax.servlet.http.HttpServletRequest;
+
+import org.springframework.stereotype.Service;
+import org.springframework.ui.Model;
+
+import com.chillax.dto.Standard;
 
 @Service
 public interface StandardService {
 
-	public void addstandard(Object areaOut);
+	public void addstandard(Object standard);
  
+	public List<Standard> findByPage(Standard standard, HttpServletRequest request, Model model);
+
 }
