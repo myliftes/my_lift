@@ -40,7 +40,7 @@
 			//工具栏
 			var toolbar = [ {
 				id : 'button-query',
-				text : '查詢',
+				text : '返回首页',
 				iconCls : 'icon-query',
 				handler : function(){
 					alert('無數據');
@@ -62,6 +62,7 @@
 					var rowDatas = $("#grid").datagrid('getSelections');
 					if(rowDatas.length==1){
 // 						2、弹出窗口
+						$("#standardWindow").window("clear");
 						$("#standardWindow").window("open");
 // 						3、数据回显
 // 						form表单的load方法
@@ -176,7 +177,8 @@
             			$.post("../../standardAction_add.action",formData,function(data){
             				if(data.success){
             					data= {"success":true,"message":"保存成功"}
-//             					1、关闭窗口
+//             					1、关闭窗口，请空数据
+									$("#standardWindow").window("clear");
 									$("#standardWindow").window("close");
 //             					2、刷新列表数据
 // 									使用datagrid的重新加载数据的方法
@@ -234,14 +236,12 @@
 								<input type="number" name="maxLength" class="easyui-numberbox" required="true" />
 							</td>
 						</tr>
-						<!-- 
 						<tr>
 							<td>操作時間</td>
 							<td>
 								<input type="date" name="operatingTime" class="easyui-datebox" required="false" />
 							</td>
 						</tr>
-						 -->
 						<tr>
 							<td>操作員</td>
 							<td>
