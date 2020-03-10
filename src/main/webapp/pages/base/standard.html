@@ -171,7 +171,7 @@
             		if($("#standardForm").form('validate')){
 //             			表单的提交
 						var formData = $("#standardForm").serializeJSON(); 
-						//alert(formData);
+						console.log(formData);
  						//var str = JSON.stringify(formData); //JSON.stringify是纯js的方法 把对象转成字符串
  						//alert(str);
             			$.post("../../standardAction_add.action",formData,function(data){
@@ -236,16 +236,40 @@
 								<input type="number" name="maxLength" class="easyui-numberbox" required="true" />
 							</td>
 						</tr>
-						<tr>
+				<!-- <tr>
 							<td>操作時間</td>
 							<td>
-								<input type="date" name="operatingTime" class="easyui-datebox" required="false" />
+								<input type="text" name="operatingTime" class="easyui-datetimebox" required="false" />
+								<input type="text" name="operatingTime" class="easyui-combobox" required="false" />
+								<input class="easyui-datetimebox" name="operatingTime"label="Select DateTime:" labelPosition="top" style="width:100%;">
 							</td>
-						</tr>
+						</tr> 
+						-->
 						<tr>
 							<td>操作員</td>
 							<td>
-								<input type="text" name="operator" class="easyui-combobox" required="false" />
+								<!-- <input type="text" name="operator" class="easyui-combobox" required="false" /> -->
+			                	<select class="easyui-combobox" name="operator" required="true"style="width:170%">
+			                		<option value="ar">Arabic</option><option value="bg">Bulgarian</option>
+			                		<option value="ca">Catalan</option><option value="zh-cht">Chinese Traditional</option>
+			                		<option value="cs">Czech</option><option value="da">Danish</option>
+			                		<option value="nl">Dutch</option><option value="en" selected="selected">English</option>
+			                		<option value="et">Estonian</option><option value="fi">Finnish</option>
+			                		<option value="fr">French</option><option value="de">German</option>
+			                		<option value="el">Greek</option><option value="ht">Haitian Creole</option>
+			                		<option value="he">Hebrew</option><option value="hi">Hindi</option>
+			                		<option value="mww">Hmong Daw</option><option value="hu">Hungarian</option>
+			                		<option value="id">Indonesian</option><option value="it">Italian</option>
+			                		<option value="ja">Japanese</option><option value="ko">Korean</option>
+			                		<option value="lv">Latvian</option><option value="vi">Vietnamese</option>
+			                		<option value="lt">Lithuanian</option><option value="no">Norwegian</option>
+			                		<option value="fa">Persian</option><option value="pl">Polish</option>
+			                		<option value="pt">Portuguese</option><option value="ro">Romanian</option>
+			                		<option value="ru">Russian</option><option value="sk">Slovak</option>
+			                		<option value="sl">Slovenian</option><option value="es">Spanish</option>
+			                		<option value="sv">Swedish</option><option value="th">Thai</option>
+			                		<option value="tr">Turkish</option><option value="uk">Ukrainian</option>
+			                	</select>
 							</td>
 						</tr>
 					</table>
