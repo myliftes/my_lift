@@ -22,6 +22,8 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.chillax.dto.Standard;
 import com.chillax.service.StandardService;
+import com.chillax.utilMain.DataSourceContextHolder;
+import com.chillax.utilMain.DataSourceType;
 import com.sun.mail.iap.Response;
 
 import bease.BaseController;
@@ -55,6 +57,8 @@ public class StandardController extends BaseController {
 			System.out.println("clear后的json内容：" + jsonObject.toString());
 			jsonObject.put("error", "error");
 		}
+		//DataSourceContextHolder.setDbType(DataSourceType.SOURCE_MYSQL);  
+
 		return jsonObject;
 	}
 	// end
@@ -93,7 +97,6 @@ public class StandardController extends BaseController {
 	//end
 	
 	//start 测试类
-	
 	public JSONObject test(Standard standard, HttpServletRequest request, Model model)
 			throws InstantiationException, IllegalAccessException, InvocationTargetException {
 		// 第一种方式使用实体类接收数据,实现方式不明

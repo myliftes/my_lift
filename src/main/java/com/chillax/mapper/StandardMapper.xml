@@ -8,7 +8,7 @@
 		<result column="C_MAXWEIGHT" property="maxWeight" jdbcType="DOUBLE" /> 
 		<result column="C_MINLENGTH" property="minLength" jdbcType="DOUBLE" /> 
 		<result column="C_MAXLENGTH" property="maxLength" jdbcType="DOUBLE" /> 
-		<result column="C_OPERATINGTIME" property="operatingTime" jdbcType="TIMESTAMP" /> 
+		<result column="C_OPERATINGTIME" property="operatingTime" jdbcType="VARCHAR" /> 
 		<result column="C_OPERATOR" property="operator" jdbcType="VARCHAR" /> 
 		<result column="C_OPERATINGCOMPANY" property="operatingCompany" jdbcType="VARCHAR" /> 
 		<result column="C_CREATOR" property="creator" jdbcType="VARCHAR" /> 
@@ -19,7 +19,7 @@
 	</resultMap>
 
 	<sql id="Base_Column_List">
-		C_ID, C_NAME, C_MINWEIGHT, C_MAXWEIGHT, C_MINLENGTH ,C_MAXLENGTH, C_OPERATINGTIME,C_OPERATOR,
+		C_ID, C_NAME, C_MINWEIGHT, C_MAXWEIGHT, C_MINLENGTH ,C_MAXLENGTH, date_format(C_OPERATINGTIME,'%Y-%m-%d %H	-%T-%s') ,C_OPERATOR,
 		C_OPERATINGCOMPANY
 	</sql>
 	
@@ -51,7 +51,7 @@
 		C_OPERATINGCOMPANY,C_CREATOR,C_CREATE_TIME,C_REVISOR,C_REVICE_TIME,C_VERSION)
 		values (
 		#{id,jdbcType=INTEGER},#{name,jdbcType=VARCHAR},#{minWeight,jdbcType=DOUBLE},#{maxWeight,jdbcType=DOUBLE},
-		#{minLength,jdbcType=DOUBLE},#{maxLength,jdbcType=DOUBLE},#{operatingTime,jdbcType=TIMESTAMP},
+		#{minLength,jdbcType=DOUBLE},#{maxLength,jdbcType=DOUBLE},#{operatingTime,jdbcType=VARCHAR},
 		#{operator,jdbcType=VARCHAR},#{operatingCompany,jdbcType=VARCHAR},#{creator,jdbcType=VARCHAR},
 		#{create_time,jdbcType=TIMESTAMP},#{revisor,jdbcType=VARCHAR},#{revice_time,jdbcType=TIMESTAMP},
 		#{verison,jdbcType=INTEGER})

@@ -2,6 +2,8 @@ package com.chillax.dto;
 
 import java.util.Date;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 public class Standard {
 	private Integer id; // 主键
 	private String name; // 标准名称
@@ -9,12 +11,14 @@ public class Standard {
 	private Double maxWeight; // 最大重量
 	private Double minLength; // 最小长度
 	private Double maxLength; // 最大重量
-	private Date operatingTime;// 操作时间
+	private String operatingTime;// 操作时间
 	private String operator; // 操作员
 	private String operatingCompany; // 操作单位
 	private String creator;// 创建责任者
+	@DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
 	private Date create_time;// 创建时间
 	private String revisor;// 修改人
+	@DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
 	private Date revice_time;// 修改时间
 	private String verison;// 版本号
 
@@ -66,11 +70,11 @@ public class Standard {
 		this.maxLength = maxLength;
 	}
 
-	public Date getOperatingTime() {
+	public String getOperatingTime() {
 		return operatingTime;
 	}
 
-	public void setOperatingTime(Date operatingTime) {
+	public void setOperatingTime(String operatingTime) {
 		this.operatingTime = operatingTime;
 	}
 
